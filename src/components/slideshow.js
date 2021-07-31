@@ -70,7 +70,7 @@ export default function Slideshow({ data, emoji, type }) {
                         <Arrow onClick={handleNext}>{'>'}</Arrow>
                     </SlideshowContainer>
                     :
-                    <Container textAlign="center">You can't find this pokemon in the wild</Container>
+                    <Container textAlign="center"><div style={{fontWeight:700}}>You can't find this pokemon in the wild</div></Container>
             }
         </>
     )

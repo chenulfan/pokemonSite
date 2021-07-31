@@ -2,11 +2,12 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
-import MyModal from './pokemonModal'
+import PokemonModal from './pokemonModal'
 import { HeartFill } from '@styled-icons/bootstrap/HeartFill'
 import { Popup } from 'semantic-ui-react'
 import COLOR_TYPES from '../constants/colorTypes'
 import COLOR_CARD_TYPES from '../constants/colorCardTypes'
+import WarningModal from './warningModal'
 
 const PokeCard = styled.div({
     width: 200,
@@ -95,7 +96,9 @@ export default function PokemonCard({ id, toggleFavorite, isFav }) {
     const [pokemonData, setPokemonData] = useState({})
     const [loading, setLoading] = useState(true)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isWarningModalOpen, setIsWarningModalOpen] = useState(false)
     const [fav, setFav] = useState(isFav)
+
 
     useEffect(() => {
         getPokemonData()
@@ -105,6 +108,10 @@ export default function PokemonCard({ id, toggleFavorite, isFav }) {
         setIsModalOpen(true)
     }
     const closeModal = () => {
+        setIsModalOpen(false)
+    }
+    const closeWarningModal = () => {
+        setIsWarningModalOpen(false)
         setIsModalOpen(false)
     }
 
@@ -128,7 +135,6 @@ export default function PokemonCard({ id, toggleFavorite, isFav }) {
         if (res) {
             setFav(!fav)
             toggleFavorite(id)
-
         }
     }
 
@@ -140,16 +146,14 @@ export default function PokemonCard({ id, toggleFavorite, isFav }) {
         let favorites = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : []
 
         const found = favorites.findIndex(id => id == pokemonData.id)
-        if (found == -1) {
+        if (found == -1)
             favorites.push(pokemonData.id)
-        }
-        else {
+        else
             favorites.splice(found, 1);
 
-        }
-
         if (favorites.length > 6) {
-            console.log("you added the maximum pokemons to your favorites")
+            console.log("You added the maximum pokemons to your favorites")
+            setIsWarningModalOpen(true)
             return false
         }
         else {
@@ -204,7 +208,8 @@ export default function PokemonCard({ id, toggleFavorite, isFav }) {
                 <TypesContainer>
                     {!loading ? pokemonData.types.map((type, i) => <Type key={i} type={type.type.name} > {type.type.name} </Type>) : null}
                 </TypesContainer>
-                <MyModal show={isModalOpen} closeModal={closeModal} pokemonData={pokemonData}></MyModal>
+                <PokemonModal show={isModalOpen} closeModal={closeModal} pokemonData={pokemonData} />
+                <WarningModal show={isWarningModalOpen} closeWarningModal={closeWarningModal}/>
             </PokeCardContent>
         </PokeCard>
     )

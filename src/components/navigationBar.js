@@ -5,7 +5,7 @@ import pokeballImg from '../pokeball.png'
 
 export default function NavigationBar() {
     const [activeItem, setActiveItem] = useState(null)
-    let history = useHistory();
+    const history = useHistory();
 
     const handleClick = (where) => {
         if(where == "dashboard"){
