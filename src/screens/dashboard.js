@@ -18,6 +18,10 @@ export default function Dashboard() {
 
     const audio = new Audio(song);
 
+    window.onload = () => {
+        localStorage.setItem("isPlaying",false)
+    };
+
     useEffect(() => {
         initIdArray()
         getFavoritesFromLocalStorage()
@@ -42,10 +46,17 @@ export default function Dashboard() {
         setFavoritesObj(idObj)
     }
 
+    const playSong = () => {
+        if(!JSON.parse(localStorage.getItem("isPlaying"))){
+            localStorage.setItem("isPlaying",true)
+            audio.play()
+        }
+    }
+
     const toggleFavorite = () => { }
 
     return (
-        <PokemonsContainer onClick={() => audio.play()}>
+        <PokemonsContainer onClick={playSong}>
             {arr.map(id => <PokemonCard key={id} id={id} toggleFavorite={toggleFavorite} isFav={favoritesObj[id]} />)}
         </PokemonsContainer>
     )
