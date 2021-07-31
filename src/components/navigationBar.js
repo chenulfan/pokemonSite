@@ -15,7 +15,7 @@ export default function NavigationBar() {
     }
 
     return (
-        <Menu inverted borderles className='navigation-bar'>
+        <Menu inverted className='navigation-bar'>
             <Menu.Item name='dashboard'>
                 <img alt='' src={pokeballImg} />
             </Menu.Item>
