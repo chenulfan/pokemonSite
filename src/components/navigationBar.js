@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
+import pokeballImg from '../pokeball.png'
 
 export default function NavigationBar() {
     const [activeItem, setActiveItem] = useState(null)
@@ -17,6 +18,9 @@ export default function NavigationBar() {
 
     return (
         <Menu inverted>
+            <Menu.Item name='dashboard'>
+                <img src={pokeballImg} />
+            </Menu.Item>
             <Menu.Item name='dashboard' active={activeItem == 'dashboard'} onClick={() => handleClick("dashboard")}>
                 Dashboard
             </Menu.Item>
