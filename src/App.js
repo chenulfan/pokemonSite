@@ -2,7 +2,6 @@ import './App.css';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Dashboard from './screens/dashboard';
 import Favorites from './screens/favorites';
-import Slideshow from './components/slideshow';
 import NavigationBar from './components/navigationBar';
 
 function App() {
@@ -10,7 +9,6 @@ function App() {
     <Router>
       <Route path="/" component={NavigationBar}></Route>
       <Route exact path="/" component={Dashboard}></Route>
-      <Route exact path="/test" component={Slideshow}></Route>
       <Route exact path="/favorites" component={Favorites}></Route>
     </Router>
   );

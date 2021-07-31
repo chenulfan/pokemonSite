@@ -27,33 +27,33 @@ const SlideshowContent = styled.div({
     justifyContent: 'center',
     alignItems: 'center',
     width: 300
-
 })
 
-
 export default function Slideshow({ data, emoji, type }) {
-    const [curr, setCurr] = useState(0)
+    const [currPokemon, setCurrPokemon] = useState(0)
     const handlePrev = () => {
-        if (curr == 0)
-            setCurr(data.length - 1)
+        if (currPokemon === 0)
+            setCurrPokemon(data.length - 1)
         else
-            setCurr(curr - 1)
+            setCurrPokemon(currPokemon - 1)
     }
     const handleNext = () => {
-        if (curr == data.length - 1)
-            setCurr(0)
+        if (currPokemon === data.length - 1)
+            setCurrPokemon(0)
         else
-            setCurr(curr + 1)
+            setCurrPokemon(currPokemon + 1)
     }
 
     const handleType = () => {
-        switch(type){
+        switch (type) {
             case "location":
-                return data[curr].location_area.name
+                return data[currPokemon].location_area.name
             case "move":
-                return data[curr].move.name
+                return data[currPokemon].move.name
             case "game":
-                return data[curr].version.name
+                return data[currPokemon].version.name
+            default: 
+                return
         }
     }
 
@@ -70,7 +70,7 @@ export default function Slideshow({ data, emoji, type }) {
                         <Arrow onClick={handleNext}>{'>'}</Arrow>
                     </SlideshowContainer>
                     :
-                    <Container textAlign="center"><div style={{fontWeight:700}}>You can't find this pokemon in the wild</div></Container>
+                    <Container textAlign="center"><div style={{ fontWeight: 700 }}>You can't find this pokemon in the wild</div></Container>
             }
         </>
     )

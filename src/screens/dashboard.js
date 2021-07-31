@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PokemonCard from '../components/pokemonCard'
 import styled from 'styled-components'
-import song from '../song.mp3'
-
+import song from '../assets/song.mp3'
 
 const PokemonsContainer = styled.div({
     display: 'flex',
@@ -13,7 +12,7 @@ const PokemonsContainer = styled.div({
 })
 
 export default function Dashboard() {
-    const [arr, setArr] = useState([]);
+    const [idArr, setIdArr] = useState([]);
     const [favoritesObj, setFavoritesObj] = useState([]);
 
     const audio = new Audio(song);
@@ -32,7 +31,7 @@ export default function Dashboard() {
         for (let i = 0; i < 151; i++) {
             tmpArr[i] = i + 1
         }
-        setArr(tmpArr)
+        setIdArr(tmpArr)
     }
 
     const getFavoritesFromLocalStorage = () => {
@@ -47,17 +46,18 @@ export default function Dashboard() {
     }
 
     const playSong = () => {
-        if(!JSON.parse(localStorage.getItem("isPlaying"))){
+        const songIsPlaying = JSON.parse(localStorage.getItem("isPlaying"))
+        if(!songIsPlaying){
             localStorage.setItem("isPlaying",true)
             audio.play()
         }
     }
 
-    const toggleFavorite = () => { }
+    const toggleFavorite = () => {}
 
     return (
         <PokemonsContainer onClick={playSong}>
-            {arr.map(id => <PokemonCard key={id} id={id} toggleFavorite={toggleFavorite} isFav={favoritesObj[id]} />)}
+            {idArr.map(id => <PokemonCard key={id} id={id} toggleFavorite={toggleFavorite} isFav={favoritesObj[id]} />)}
         </PokemonsContainer>
     )
 }

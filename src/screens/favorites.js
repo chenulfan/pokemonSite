@@ -3,7 +3,6 @@ import PokemonCard from '../components/pokemonCard'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-
 const PokemonsContainer = styled.div({
     display: 'flex',
     justifyContent: 'center',
@@ -26,8 +25,8 @@ export default function Favorites() {
     }
 
     const getFavoritesFromLocalStorage = () => {
-        setPokemonsId(JSON.parse(localStorage.getItem('favorites')))
         const idArr = JSON.parse(localStorage.getItem('favorites'))
+        setPokemonsId(idArr)
         const idObj = {}
         if (idArr) {
             idArr.forEach(id => {

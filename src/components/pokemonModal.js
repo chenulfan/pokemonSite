@@ -2,14 +2,16 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { Header, Image, Modal } from 'semantic-ui-react'
 import styled from 'styled-components'
-import COLOR_TYPES from '../constants/colorTypes'
+import {COLOR_TYPES} from '../constants/colors'
 import Slideshow from './slideshow'
 import { Container } from 'semantic-ui-react'
+import capitalize from '../utils/capitalize'
 
 const TypesContainer = styled.div({
   display: 'flex',
   justifyContent: 'center'
 })
+
 const Type = styled.p({
   width: 60,
   height: 25,
@@ -30,10 +32,6 @@ function MyModal({ show, closeModal, pokemonData }) {
     const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonData.id}/encounters`)
     setLocations(res.data)
   }
-  
-  const capitalize = (name) => {
-    return name[0].toUpperCase() + name.slice(1)
-  }
 
   const getEvoChain = async () => {
     setEvoChain([])
@@ -47,7 +45,7 @@ function MyModal({ show, closeModal, pokemonData }) {
 
       const name = evoData.species.name
       let pic, id
-      if (name == pokemonData.name) {
+      if (name === pokemonData.name) {
         pic = pokemonData.pic
         id = pokemonData.id
       }
@@ -72,18 +70,17 @@ function MyModal({ show, closeModal, pokemonData }) {
     getEvoChain()
   }
 
-
   return (
     <Modal
       onMount={getMorePokemonData}
       onClose={closeModal}
       open={show}
-      size='tiny'
+      size='small'
     >
       <Modal.Header>
         <Container textAlign='center'>{pokemonData.name? capitalize(pokemonData.name) : null} #{pokemonData.id}</Container>
       </Modal.Header>
-      <Modal.Content >
+      <Modal.Content scrolling>
         <Image size='small' src={pokemonData.pic} centered />
         <Modal.Description>
 
@@ -102,12 +99,11 @@ function MyModal({ show, closeModal, pokemonData }) {
           <Slideshow data={locations} emoji='📍' type='location' />
 
           <Header size='large'>Evolutions</Header>
-          <Container >
+          <Container textAlign='center'>
             <Image.Group size='small'>
               {evoChain.map((evo, i) => <Image size='small' key={i} src={evo.pic} />)}
             </Image.Group>
           </Container>
-
 
           <Header size='large'>Is Evolution? {isEvoultion ? "YES" : "NO"}</Header>
 

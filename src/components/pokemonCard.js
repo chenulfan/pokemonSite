@@ -1,13 +1,12 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import Loader from 'react-loader-spinner'
 import styled from 'styled-components'
 import PokemonModal from './pokemonModal'
 import { HeartFill } from '@styled-icons/bootstrap/HeartFill'
 import { Popup } from 'semantic-ui-react'
-import COLOR_TYPES from '../constants/colorTypes'
-import COLOR_CARD_TYPES from '../constants/colorCardTypes'
+import { COLOR_TYPES,COLOR_CARD_TYPES } from '../constants/colors'
 import WarningModal from './warningModal'
+import capitalize from '../utils/capitalize'
 
 const PokeCard = styled.div({
     width: 200,
@@ -65,8 +64,8 @@ const Type = styled.p({
 
 const NotFavorite = styled.div({
     position: 'absolute',
-    right: 5,
-    top: 2,
+    right: 8,
+    top: 6,
     fontSize: 35,
     ':hover': {
         color: 'red'
@@ -83,8 +82,8 @@ const Favorite = styled(HeartFill)`
 const FavoriteContainer = styled.div({
     cursor: 'pointer',
     position: 'absolute',
-    right: 5,
-    top: 2
+    right: 8,
+    top: 6,
 })
 
 const CardHeader = styled.div({
@@ -98,7 +97,6 @@ export default function PokemonCard({ id, toggleFavorite, isFav }) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isWarningModalOpen, setIsWarningModalOpen] = useState(false)
     const [fav, setFav] = useState(isFav)
-
 
     useEffect(() => {
         getPokemonData()
@@ -138,21 +136,16 @@ export default function PokemonCard({ id, toggleFavorite, isFav }) {
         }
     }
 
-    const capitalize = (name) => {
-        return name[0].toUpperCase() + name.slice(1)
-    }
-
     const addToLocalStorage = () => {
         let favorites = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : []
 
-        const found = favorites.findIndex(id => id == pokemonData.id)
-        if (found == -1)
+        const found = favorites.findIndex(id => id === pokemonData.id)
+        if (found === -1)
             favorites.push(pokemonData.id)
         else
             favorites.splice(found, 1);
 
         if (favorites.length > 6) {
-            console.log("You added the maximum pokemons to your favorites")
             setIsWarningModalOpen(true)
             return false
         }
@@ -185,23 +178,16 @@ export default function PokemonCard({ id, toggleFavorite, isFav }) {
                         size='mini'
                         trigger={<NotFavorite onClick={loading ? null : handleToggle}>♡</NotFavorite>}
                     />
-
                 }
 
             </CardHeader>
             <PokeCardContent onClick={loading ? null : openModal}>
                 <CircleContainer>
                     <Circle>
-                        {Object.keys(pokemonData).length == 0 ?
-                            <Loader
-                                type="TailSpin"
-                                color="#00BFFF"
-                                height={90}
-                                width={90}
-                            />
+                        {Object.keys(pokemonData).length === 0 ?
+                            null
                             :
-                            <Avatar src={pokemonData.pic} />
-                        }
+                            <Avatar src={pokemonData.pic} />}
                     </Circle>
                 </CircleContainer>
                 <h1>{!loading ? capitalize(pokemonData.name) : null}</h1>
@@ -209,7 +195,7 @@ export default function PokemonCard({ id, toggleFavorite, isFav }) {
                     {!loading ? pokemonData.types.map((type, i) => <Type key={i} type={type.type.name} > {type.type.name} </Type>) : null}
                 </TypesContainer>
                 <PokemonModal show={isModalOpen} closeModal={closeModal} pokemonData={pokemonData} />
-                <WarningModal show={isWarningModalOpen} closeWarningModal={closeWarningModal}/>
+                <WarningModal show={isWarningModalOpen} closeWarningModal={closeWarningModal} />
             </PokeCardContent>
         </PokeCard>
     )

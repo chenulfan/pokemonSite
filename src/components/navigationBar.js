@@ -1,31 +1,29 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
-import pokeballImg from '../pokeball.png'
+import pokeballImg from '../assets/pokeball.png'
 
 export default function NavigationBar() {
-    const [activeItem, setActiveItem] = useState(null)
+    const [activeItem] = useState(null)
     const history = useHistory();
 
     const handleClick = (where) => {
-        if(where == "dashboard"){
+        if(where === "dashboard")
             history.push("/");
-        }
-        if(where == "favorites"){
+        if(where === "favorites")
             history.push("/favorites");
-        }
     }
 
     return (
-        <Menu inverted>
+        <Menu inverted borderles className='navigation-bar'>
             <Menu.Item name='dashboard'>
-                <img src={pokeballImg} />
+                <img alt='' src={pokeballImg} />
             </Menu.Item>
-            <Menu.Item name='dashboard' active={activeItem == 'dashboard'} onClick={() => handleClick("dashboard")}>
+            <Menu.Item name='dashboard' active={activeItem === 'dashboard'} onClick={() => handleClick("dashboard")}>
                 Dashboard
             </Menu.Item>
 
-            <Menu.Item name='favorites' active={activeItem == 'favorites'} onClick={() => handleClick("favorites")}>
+            <Menu.Item name='favorites' active={activeItem === 'favorites'} onClick={() => handleClick("favorites")}>
                 Favorites
             </Menu.Item>
         </Menu>
